@@ -14,9 +14,6 @@ function App(){
                 <Route path="/" element={<HomePage />} />
                 <Route path="/autores" element={<AutoresCrud />} />
                 <Route path="/libros" element={<LibroCrud />} />
-                <Route path="/autores/Add" element={<AutoresForm />} />
-                <Route path="/autores/Edit/:id" element={<AutoresForm />} />
-                <Route path="/autores/Delete/:id" element={<AutoresForm del={true} />} />
                 <Route path="/libros/Add" element={<LibrosForm />} />
                 <Route path="/libros/Edit/:id" element={<LibrosForm />} />
                 <Route path="/libros/Delete/:id" element={<LibrosForm del={true} />} />

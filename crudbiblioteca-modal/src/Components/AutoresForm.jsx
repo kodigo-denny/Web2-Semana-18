@@ -1,22 +1,23 @@
 import React, {useEffect, useState} from "react";
 import Menu from "./Menu"
-import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-function AutoresForm({del}){
+function AutoresForm({del, id}){
 
     const[nombre, setNombre] = useState("")
     const[apellido, setApellido] = useState("")
     const[pais, setPais] = useState("")
 
-    const navigate = useNavigate()
-    const {id} = useParams()
-
     useEffect(() =>{
         //console.log(id)
         if(id!=undefined)
             cargarAutor()
-    },[])
+        else{
+            setNombre("")
+            setApellido("")
+            setPais("")
+        }
+    },[id])
 
     async function cargarAutor(){
         try{
@@ -31,7 +32,7 @@ function AutoresForm({del}){
         catch(error){
             if(error.response.status == 404){
                 alert("Autor no existe!")
-                navigate("/autores")
+                document.querySelector("#btnClose").click()
             }
             else
                 alert(error)
@@ -67,12 +68,12 @@ function AutoresForm({del}){
 
             alert(data.message)
             if(data.status == 1)
-                navigate("/autores")
+                document.querySelector("#btnClose").click()
         }
         catch(error){
             if(error.response.status == 404){
                 alert("Autor no existe!")
-                navigate("/autores")
+                document.querySelector("#btnClose").click()
             }
             else
                 alert(error)
@@ -98,7 +99,7 @@ function AutoresForm({del}){
 
             alert(data.message)
             if(data.status == 1)
-                navigate("/autores")
+                document.querySelector("#btnClose").click()
         }
         catch(error){
             alert(error)
@@ -123,16 +124,20 @@ function AutoresForm({del}){
 
             alert(data.message)
             if(data.status==1)
-                navigate("/autores")
+                document.querySelector("#btnClose").click()
         }
         catch(error){
             alert(error)
         }
     }
 
+    function cancelar(e){
+        e.preventDefault()
+        e.stopPropagation()
+    }
+
     return(
         <div>
-            <Menu />
             <h1>{id==undefined ? "Add" : del!=true ? "Edit" : "Delete"}</h1>
             
 
@@ -167,7 +172,7 @@ function AutoresForm({del}){
                 </div>
                 <div className="form-group mt-2">
                     <button className={`btn btn-${id == undefined ? "success" : del!=true ? "primary" : "danger"}`} onClick={(e) => enviar(e)}>{id == undefined ? "Guardar" : del!=true ? "Editar" : "Eliminar"}</button>
-                    <button className="btn btn-secondary" onClick={() => navigate("/autores") }>Cancelar</button>
+                    <button className="btn btn-secondary" data-bs-dismiss="modal" onClick={(e) => cancelar(e)}>Cancelar</button>
                 </div>
             </form>
         </div>
